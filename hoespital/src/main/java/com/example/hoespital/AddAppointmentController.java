@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class AddAppointmentController {
-
     @FXML
     private TextField patientNameField;
 
@@ -19,16 +18,21 @@ public class AddAppointmentController {
 
     @FXML
     private DatePicker datePicker;
-
     @FXML
-    private TextField treatmentField;
+    private ChoiceBox<String> insuranceChoiceBox;
+    @FXML
+    private ChoiceBox<String> treatmentChoiceBox;
 
     @FXML
     private TextField medicalHistoryField;
 
+    private static int lastPatientId = 0;
+
     @FXML
     public void initialize() {
         genderChoiceBox.setItems(FXCollections.observableArrayList("Male", "Female"));
+        treatmentChoiceBox.setItems(FXCollections.observableArrayList("diabetes", "lungs (Pulmonology)", "heart (Cardiology)", "kidneys (Nephrology)", "liver (Hepatology)", "stomach (Gastroenterology)", "brain (Neurology)", "bones (Orthopedics)", "skin (Dermatology)", "eyes (Ophthalmology)", "ears (Otolaryngology)", "teeth (Dentistry)", "mental health (Psychiatry)", "pregnancy (Obstetrics)", "children (Pediatrics)", "elderly (Geriatrics)", "Allergy (Asthma)"));
+        insuranceChoiceBox.setItems(FXCollections.observableArrayList("AAA Insurance", "BBB Insurance", "No Insurance"));
     }
 
     @FXML
@@ -36,15 +40,22 @@ public class AddAppointmentController {
         String name = patientNameField.getText();
         String gender = genderChoiceBox.getValue();
         String date = (datePicker.getValue() != null) ? datePicker.getValue().toString() : null;
-        String treatment = treatmentField.getText();
+        String treatment = treatmentChoiceBox.getValue();
+        String insurance = insuranceChoiceBox.getValue();
         String medicalHistory = medicalHistoryField.getText();
 
-        if (name.isEmpty() || gender == null || date == null || treatment.isEmpty() || medicalHistory.isEmpty()) {
+        if (name.isEmpty() || gender == null || date == null || treatment == null || medicalHistory.isEmpty()) {
             showAlert("Error", "Missing Information", "Please fill out all fields.");
             return;
         }
 
-        Patient newPatient = new Patient(name, "", gender, medicalHistory, date);
+        // Increment the patient ID
+        lastPatientId++;
+        String id = "A" + String.format("%03d", lastPatientId);
+
+        // Declare and initialize the insurance variable
+        
+        Patient newPatient = new Patient(name, id, gender, medicalHistory, date, treatment, insurance);
         MainDashboardController.addPatient(newPatient);
 
         // Close the current window

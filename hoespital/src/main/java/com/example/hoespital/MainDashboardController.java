@@ -37,6 +37,12 @@ public class MainDashboardController {
     @FXML
     private TableColumn<Patient, String> dateColumn;
 
+    @FXML
+    private TableColumn<Patient, String> treatmentColumn;
+
+    @FXML
+    private TableColumn<Patient, String> insuranceColumn;
+
     private static ObservableList<Patient> patientList = FXCollections.observableArrayList();
 
     @FXML
@@ -46,6 +52,8 @@ public class MainDashboardController {
         genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
         medicalHistoryColumn.setCellValueFactory(new PropertyValueFactory<>("medicalHistory"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        treatmentColumn.setCellValueFactory(new PropertyValueFactory<>("treatment"));
+        insuranceColumn.setCellValueFactory(new PropertyValueFactory<>("insurance"));
 
         patientTable.setItems(patientList);
 
@@ -54,8 +62,7 @@ public class MainDashboardController {
     }
 
     private void addDummyData() {
-        patientList.add(new Patient("John Doe", "123", "Male", "None", "2023-10-01"));
-        patientList.add(new Patient("Jane Smith", "456", "Female", "Asthma", "2023-10-02"));
+        patientList.add(new Patient("John Doe", "0", "Male", "None", "2023-10-01", "Treatment A", "Yes"));
     }
 
     @FXML
