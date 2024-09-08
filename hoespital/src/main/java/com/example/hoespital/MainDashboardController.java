@@ -83,26 +83,31 @@ public class MainDashboardController {
     }
 
     @FXML
-    private void handleEditButtonAction(ActionEvent event) {
-        Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
-        if (selectedPatient != null) {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editappointment.fxml"));
-                AnchorPane root = fxmlLoader.load();
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                stage.setTitle("Edit Patient");
-                stage.setScene(scene);
-                stage.setWidth(610);
-                stage.setHeight(450);
-                stage.setResizable(false);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            showAlert("No Selection", "No Patient Selected", "Please select a patient in the table.");
+private void handleEditButtonAction(ActionEvent event) {
+    Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
+    if (selectedPatient != null) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editappointment.fxml"));
+            AnchorPane root = fxmlLoader.load();
+
+            // Get the controller and set the selected patient
+            EditAppointmentController controller = fxmlLoader.getController();
+            controller.setPatient(selectedPatient);
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Edit Patient");
+            stage.setScene(scene);
+            stage.setWidth(610);
+            stage.setHeight(450);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    } else {
+        showAlert("No Selection", "No Patient Selected", "Please select a patient in the table.");
+    }
     }
     @FXML
     private void handleDeleteButtonAction(ActionEvent event) {
