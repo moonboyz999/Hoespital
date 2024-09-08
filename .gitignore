@@ -1,1 +1,8 @@
+# Ignore target directory
+target/
+
+# Ignore Maven wrapper files
+.mvn/
+mvnw
+mvnw.cmd
 *.class
