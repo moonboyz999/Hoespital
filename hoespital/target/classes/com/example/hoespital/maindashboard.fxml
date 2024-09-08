@@ -30,9 +30,9 @@
             </columnResizePolicy>
         </TableView>
         <Text layoutX="499.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome, Admin!" />
-        <Button layoutX="341.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleManageAppointmentsButtonAction" text="Edit" />
+        <Button layoutX="341.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleEditButtonAction" text="Edit" />
         <Button layoutX="479.0" layoutY="351.0" mnemonicParsing="false" text="Generate Receipt" />
-      <Button layoutX="392.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleManageAppointmentsButtonAction" text="Delete" />
-      <Button layoutX="22.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleManageAppointmentsButtonAction" text="Add New Patient" />
+        <Button layoutX="392.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleDeleteButtonAction" text="Delete" />
+        <Button layoutX="22.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleAddNewPatientButtonAction" text="Add New Patient" />
     </children>
 </AnchorPane>
