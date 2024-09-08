@@ -24,6 +24,8 @@
                 <TableColumn fx:id="genderColumn" prefWidth="75.0" text="Gender" />
                 <TableColumn fx:id="medicalHistoryColumn" prefWidth="75.0" text="Medical History" />
                 <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
+                <TableColumn fx:id="treatmentColumn" prefWidth="75.0" text="Treatment" />
+                <TableColumn fx:id="insuranceColumn" prefWidth="75.0" text="Insurance" />
             </columns>
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

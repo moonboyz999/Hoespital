@@ -23,19 +23,26 @@ public class ManageAppointmentController {
     @FXML
     private TextField medicalHistoryField;
 
+
     @FXML
     private TextField dateField;
 
+    private static int lastPatientId = 0;
+
     @FXML
     private void handleSaveButtonAction(ActionEvent event) {
+        // Increment the patient ID
+        lastPatientId++;
+        String id = String.valueOf(lastPatientId);
+
         // Save the entered data
         String name = patientNameField.getText();
-        String id = patientIdField.getText();
         String gender = genderField.getText();
         String medicalHistory = medicalHistoryField.getText();
         String date = dateField.getText();
 
-        Patient newPatient = new Patient(name, id, gender, medicalHistory, date);
+        Patient newPatient = new Patient(name, id, gender, medicalHistory, date , "Treatment A", "Yes");    
+        
         MainDashboardController.addPatient(newPatient);
 
         // Close the current window
