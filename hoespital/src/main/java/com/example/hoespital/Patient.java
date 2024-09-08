@@ -19,60 +19,25 @@ public class Patient {
         this.insurance = insurance;
     }
 
-    // Getters and setters for all fields
-    public String getName() {
-        return name;
-    }
+    // Getters and setters
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public String getId() {
-        return id;
-    }
+    public String getGender() { return gender; }
+    public void setGender(String gender) { this.gender = gender; }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public String getMedicalHistory() { return medicalHistory; }
+    public void setMedicalHistory(String medicalHistory) { this.medicalHistory = medicalHistory; }
 
-    public String getGender() {
-        return gender;
-    }
+    public String getDate() { return date; }
+    public void setDate(String date) { this.date = date; }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
+    public String getTreatment() { return treatment; }
+    public void setTreatment(String treatment) { this.treatment = treatment; }
 
-    public String getMedicalHistory() {
-        return medicalHistory;
-    }
-
-    public void setMedicalHistory(String medicalHistory) {
-        this.medicalHistory = medicalHistory;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTreatment() {
-        return treatment;
-    }
-
-    public void setTreatment(String treatment) {
-        this.treatment = treatment;
-    }
-
-    public String getInsurance() {
-        return insurance;
-    }
-
-    public void setInsurance(String insurance) {
-        this.insurance = insurance;
-    }
+    public String getInsurance() { return insurance; }
+    public void setInsurance(String insurance) { this.insurance = insurance; }
 }

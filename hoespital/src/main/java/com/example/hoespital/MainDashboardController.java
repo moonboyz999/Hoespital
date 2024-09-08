@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class MainDashboardController {
-
     @FXML
     private TableView<Patient> patientTable;
 
@@ -84,28 +83,32 @@ public class MainDashboardController {
     }
 
     @FXML
-    private void handleEditButtonAction(ActionEvent event) {
-        Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
-        if (selectedPatient != null) {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editappointment.fxml"));
-                AnchorPane root = fxmlLoader.load();
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                stage.setTitle("Edit Patient");
-                stage.setScene(scene);
-                stage.setWidth(610);
-                stage.setHeight(450);
-                stage.setResizable(false);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            showAlert("No Selection", "No Patient Selected", "Please select a patient in the table.");
-        }
-    }
+private void handleEditButtonAction(ActionEvent event) {
+    Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
+    if (selectedPatient != null) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editappointment.fxml"));
+            AnchorPane root = fxmlLoader.load();
 
+            // Get the controller and set the selected patient
+            EditAppointmentController controller = fxmlLoader.getController();
+            controller.setPatient(selectedPatient);
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Edit Patient");
+            stage.setScene(scene);
+            stage.setWidth(610);
+            stage.setHeight(450);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    } else {
+        showAlert("No Selection", "No Patient Selected", "Please select a patient in the table.");
+    }
+    }
     @FXML
     private void handleDeleteButtonAction(ActionEvent event) {
         Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
@@ -132,10 +135,9 @@ public class MainDashboardController {
         alert.showAndWait();
     }
 
-    public static void addPatient(Patient patient) {
+  public static void addPatient(Patient patient) {
         patientList.add(patient);
     }
-
     @FXML
     private void handleAddNewPatientButtonAction(ActionEvent event) {
         try {
@@ -152,5 +154,17 @@ public class MainDashboardController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public static void refreshTableView() {
+        // Refresh the table view
+        patientList.forEach(patient -> {
+            patient.setName(patient.getName());
+            patient.setId(patient.getId());
+            patient.setGender(patient.getGender());
+            patient.setMedicalHistory(patient.getMedicalHistory());
+            patient.setDate(patient.getDate());
+            patient.setTreatment(patient.getTreatment());
+            patient.setInsurance(patient.getInsurance());
+        });
     }
 }
