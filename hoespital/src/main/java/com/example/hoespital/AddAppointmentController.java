@@ -12,21 +12,33 @@ import javafx.stage.Stage;
 public class AddAppointmentController {
     @FXML
     private TextField patientNameField;
+    
+    @FXML
+    private TextField patientIdField;
 
     @FXML
     private ChoiceBox<String> genderChoiceBox;
 
     @FXML
     private DatePicker datePicker;
+    
+    @FXML
+    private TextField dateField;
     @FXML
     private ChoiceBox<String> insuranceChoiceBox;
     @FXML
     private ChoiceBox<String> treatmentChoiceBox;
+    @FXML
+    private TextField treatmentField;
+    @FXML
+    private TextField insuranceField;
 
     @FXML
     private TextField medicalHistoryField;
 
     private static int lastPatientId = 0;
+    
+    private Patient selectedPatient; // Declare the selectedPatient field
 
     @FXML
     public void initialize() {
@@ -61,6 +73,35 @@ public class AddAppointmentController {
         // Close the current window
         Stage stage = (Stage) patientNameField.getScene().getWindow();
         stage.close();
+    }
+    public void setPatient(Patient patient) {
+        this.selectedPatient = patient;
+        patientNameField.setText(patient.getName());
+        patientIdField.setText(patient.getId());
+        genderChoiceBox.setValue(patient.getGender());
+        medicalHistoryField.setText(patient.getMedicalHistory());
+        dateField.setText(patient.getDate());
+        treatmentField.setText(patient.getTreatment());
+        insuranceField.setText(patient.getInsurance());
+    }
+    @FXML
+    private void handleSaveButtonAction() {
+        if (selectedPatient != null) {
+            selectedPatient.setName(patientNameField.getText());
+            selectedPatient.setId(patientIdField.getText());
+            selectedPatient.setGender(genderChoiceBox.getValue());
+            selectedPatient.setMedicalHistory(medicalHistoryField.getText());
+            selectedPatient.setDate(dateField.getText());
+            selectedPatient.setTreatment(treatmentField.getText());
+            selectedPatient.setInsurance(insuranceField.getText());
+
+            // Close the current window
+            Stage stage = (Stage) patientNameField.getScene().getWindow();
+            stage.close();
+        } else {
+            // Handle the case where selectedPatient is null
+            System.err.println("No patient selected to save.");
+        }
     }
 
     @FXML

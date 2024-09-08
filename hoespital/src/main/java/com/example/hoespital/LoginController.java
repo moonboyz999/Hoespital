@@ -49,7 +49,7 @@ public class LoginController {
             stage.setHeight(450);
             stage.setResizable(false);
             stage.show();
-
+    
             // Close the current login window
             Stage currentStage = (Stage) usernameField.getScene().getWindow();
             currentStage.close();

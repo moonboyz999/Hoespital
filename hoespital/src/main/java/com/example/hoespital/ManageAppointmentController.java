@@ -1,5 +1,6 @@
 package com.example.hoespital;
 import com.example.hoespital.Patient;
+import com.example.hoespital.EditAppointmentController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,22 +11,21 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 public class ManageAppointmentController {
-
     @FXML
     private TextField patientNameField;
-
     @FXML
     private TextField patientIdField;
-
     @FXML
     private TextField genderField;
-
     @FXML
     private TextField medicalHistoryField;
-
-
     @FXML
     private TextField dateField;
+    @FXML
+    private TextField treatmentField;
+    @FXML
+    private TextField insuranceField;
+
 
     private static int lastPatientId = 0;
 
@@ -42,7 +42,7 @@ public class ManageAppointmentController {
         String date = dateField.getText();
 
         Patient newPatient = new Patient(name, id, gender, medicalHistory, date , "Treatment A", "Yes");    
-        
+
         MainDashboardController.addPatient(newPatient);
 
         // Close the current window
@@ -68,6 +68,38 @@ public class ManageAppointmentController {
             newStage.setHeight(450);
             newStage.setResizable(false);
             newStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //edit functionality 
+    @FXML
+    private void handleEditButtonAction(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/hoespital/editappointment.fxml"));
+            AnchorPane root = fxmlLoader.load();
+
+            // Get the controller and set the selected patient
+            EditAppointmentController controller = fxmlLoader.getController();
+            controller.setPatient(new Patient(
+                patientNameField.getText(),
+                patientIdField.getText(),
+                genderField.getText(),
+                medicalHistoryField.getText(),
+                dateField.getText(),
+                treatmentField.getText(),
+                insuranceField.getText()
+            ));
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Edit Patient");
+            stage.setScene(scene);
+            stage.setWidth(610);
+            stage.setHeight(450);
+            stage.setResizable(false);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
