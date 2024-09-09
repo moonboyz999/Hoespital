@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane prefHeight="391.0" prefWidth="258.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="com.example.hoespital.BillingController">
+    <children>
+        <VBox alignment="CENTER" layoutX="50.0" layoutY="50.0" spacing="10.0">
+            <children>
+                <Label text="Patient ID:" />
+                <TextField fx:id="patientIdField" />
+                <Label text="Number of Days:" />
+                <TextField fx:id="daysField" />
+                <Button onAction="#handleCalculateBillingButtonAction" text="Calculate Billing" />
+                <Label text="Total Billing Amount:" />
+                <TextField fx:id="billingAmountField" editable="false" />
+                <Button layoutX="470.0" layoutY="50.0" mnemonicParsing="false" onAction="#handleBackToDashboardButtonAction" text="Back to Dashboard" />
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
