@@ -71,10 +71,8 @@ public class ManageAppointmentController {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/hoespital/editappointment.fxml"));
                 AnchorPane root = fxmlLoader.load();
 
-                // Get the controller and set the selected patient
                 EditAppointmentController controller = fxmlLoader.getController();
-                controller.setPatient(selectedPatient);
-
+                controller.setPatient(selectedPatient, this); // Ensure 'this' is an instance of MainDashboardController
                 Scene scene = new Scene(root);
                 Stage stage = new Stage();
                 stage.setTitle("Edit Patient");

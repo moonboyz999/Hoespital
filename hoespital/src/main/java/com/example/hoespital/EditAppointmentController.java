@@ -5,10 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.time.LocalDate;
-
 
 public class EditAppointmentController {
     @FXML
@@ -27,6 +27,7 @@ public class EditAppointmentController {
     private TextField medicalHistoryField;
 
     private Patient selectedPatient;
+    private MainDashboardController mainDashboardController; // Add a reference to MainDashboardController
 
     @FXML
     public void initialize() {
@@ -42,13 +43,16 @@ public class EditAppointmentController {
         insuranceChoiceBox.setItems(FXCollections.observableArrayList("AAA Insurance", "BBB Insurance", "No Insurance"));
     }
 
-    public void setPatient(Patient patient) {
+    // New method to set the patient and MainDashboardController
+    public void setPatient(Patient patient, MainDashboardController mainDashboardController) {
         this.selectedPatient = patient;
+        this.mainDashboardController = mainDashboardController;
+        
         patientNameField.setText(patient.getName());
         patientIdField.setText(patient.getId());
         genderChoiceBox.setValue(patient.getGender());
         medicalHistoryField.setText(patient.getMedicalHistory());
-        datePicker.setValue(LocalDate.parse(patient.getDate())); // Use datePicker here, not dateField
+        datePicker.setValue(LocalDate.parse(patient.getDate()));
         treatmentChoiceBox.setValue(patient.getTreatment());
         insuranceChoiceBox.setValue(patient.getInsurance());
     }
@@ -81,7 +85,7 @@ public class EditAppointmentController {
             stage.close();
 
             // Refresh the table view in the MainDashboardController
-            MainDashboardController.refreshTableView();
+            mainDashboardController.refreshTableView(); // Correctly call the instance method
         } else {
             System.err.println("No patient selected to save.");
         }
@@ -100,5 +104,10 @@ public class EditAppointmentController {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    public void setPatient(Patient selectedPatient2, ManageAppointmentController manageAppointmentController) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setPatient'");
     }
 }

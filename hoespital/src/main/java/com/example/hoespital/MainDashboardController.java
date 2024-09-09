@@ -46,6 +46,7 @@ public class MainDashboardController {
 
     @FXML
     public void initialize() {
+        // Set up the table columns with their respective data properties
         patientColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
@@ -54,14 +55,16 @@ public class MainDashboardController {
         treatmentColumn.setCellValueFactory(new PropertyValueFactory<>("treatment"));
         insuranceColumn.setCellValueFactory(new PropertyValueFactory<>("insurance"));
 
+        // Bind the ObservableList to the TableView
         patientTable.setItems(patientList);
 
-        // Add dummy data
+        // Add some dummy data to the list
         addDummyData();
     }
 
     private void addDummyData() {
-        patientList.add(new Patient("John Doe", "0", "Male", "None", "2023-10-01", "Treatment A", "Yes"));
+        // Example patient data to populate the table
+        patientList.add(new Patient("John Doe", "0", "Male", "None", "2023-10-01", "Diabetes", "AAA Insurance"));
     }
 
     @FXML
@@ -83,34 +86,38 @@ public class MainDashboardController {
     }
 
     @FXML
-private void handleEditButtonAction(ActionEvent event) {
-    Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
-    if (selectedPatient != null) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editappointment.fxml"));
-            AnchorPane root = fxmlLoader.load();
+    private void handleEditButtonAction(ActionEvent event) {
+        // Get the selected patient from the TableView
+        Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
+        if (selectedPatient != null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editappointment.fxml"));
+                AnchorPane root = fxmlLoader.load();
 
-            // Get the controller and set the selected patient
-            EditAppointmentController controller = fxmlLoader.getController();
-            controller.setPatient(selectedPatient);
+                // Get the controller instance and set the selected patient and current controller
+                EditAppointmentController controller = fxmlLoader.getController();
+                controller.setPatient(selectedPatient, this); // Ensure 'this' is an instance of MainDashboardController                
 
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setTitle("Edit Patient");
-            stage.setScene(scene);
-            stage.setWidth(610);
-            stage.setHeight(450);
-            stage.setResizable(false);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setTitle("Edit Patient");
+                stage.setScene(scene);
+                stage.setWidth(610);
+                stage.setHeight(450);
+                stage.setResizable(false);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // Show an alert if no patient is selected
+            showAlert("No Selection", "No Patient Selected", "Please select a patient in the table.");
         }
-    } else {
-        showAlert("No Selection", "No Patient Selected", "Please select a patient in the table.");
     }
-    }
+
     @FXML
     private void handleDeleteButtonAction(ActionEvent event) {
+        // Get the selected patient from the TableView
         Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
         if (selectedPatient != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -120,14 +127,17 @@ private void handleEditButtonAction(ActionEvent event) {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Remove the selected patient from the list
                 patientList.remove(selectedPatient);
             }
         } else {
+            // Show an alert if no patient is selected
             showAlert("No Selection", "No Patient Selected", "Please select a patient in the table.");
         }
     }
 
     private void showAlert(String title, String header, String content) {
+        // Display an alert dialog
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(header);
@@ -135,9 +145,11 @@ private void handleEditButtonAction(ActionEvent event) {
         alert.showAndWait();
     }
 
-  public static void addPatient(Patient patient) {
+    public static void addPatient(Patient patient) {
+        // Add a new patient to the ObservableList
         patientList.add(patient);
     }
+
     @FXML
     private void handleAddNewPatientButtonAction(ActionEvent event) {
         try {
@@ -155,16 +167,9 @@ private void handleEditButtonAction(ActionEvent event) {
             e.printStackTrace();
         }
     }
-    public static void refreshTableView() {
-        // Refresh the table view
-        patientList.forEach(patient -> {
-            patient.setName(patient.getName());
-            patient.setId(patient.getId());
-            patient.setGender(patient.getGender());
-            patient.setMedicalHistory(patient.getMedicalHistory());
-            patient.setDate(patient.getDate());
-            patient.setTreatment(patient.getTreatment());
-            patient.setInsurance(patient.getInsurance());
-        });
+
+    public void refreshTableView() {
+        // Refresh the TableView to reflect changes in the data
+        patientTable.refresh(); // This updates the TableView with the latest data
     }
 }
