@@ -8,6 +8,7 @@ public class Patient {
     private String date;
     private String treatment;
     private String insurance;
+    private double price;
 
     public Patient(String name, String id, String gender, String medicalHistory, String date, String treatment, String insurance) {
         this.name = name;
@@ -17,6 +18,8 @@ public class Patient {
         this.date = date;
         this.treatment = treatment;
         this.insurance = insurance;
+        this.price = price; // Initialize the new field
+
     }
 
     // Getters and setters
@@ -40,4 +43,6 @@ public class Patient {
 
     public String getInsurance() { return insurance; }
     public void setInsurance(String insurance) { this.insurance = insurance; }
+    public double getPrice() { return price; } // New getter
+    public void setPrice(double price) { this.price = price; } // New setter
 }

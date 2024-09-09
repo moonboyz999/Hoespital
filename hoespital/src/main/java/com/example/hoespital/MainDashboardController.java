@@ -41,6 +41,9 @@ public class MainDashboardController {
 
     @FXML
     private TableColumn<Patient, String> insuranceColumn;
+    @FXML
+    private TableColumn<Patient, Double> priceColumn; // New column for price
+
 
     private static ObservableList<Patient> patientList = FXCollections.observableArrayList();
 
@@ -54,6 +57,8 @@ public class MainDashboardController {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         treatmentColumn.setCellValueFactory(new PropertyValueFactory<>("treatment"));
         insuranceColumn.setCellValueFactory(new PropertyValueFactory<>("insurance"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price")); // Bind the new column
+
 
         // Bind the ObservableList to the TableView
         patientTable.setItems(patientList);
@@ -64,7 +69,10 @@ public class MainDashboardController {
 
     private void addDummyData() {
         // Example patient data to populate the table
-        patientList.add(new Patient("John Doe", "0", "Male", "None", "2023-10-01", "Diabetes", "AAA Insurance"));
+        Patient patient = new Patient("John Doe", "0", "Male", "None", "2023-10-01", "Diabetes", "AAA Insurance");
+        patientList.add(patient);
+    
+        BillingController.setPatientTreatment(patient.getId(), patient.getTreatment());
     }
 
     @FXML
@@ -112,6 +120,24 @@ public class MainDashboardController {
         } else {
             // Show an alert if no patient is selected
             showAlert("No Selection", "No Patient Selected", "Please select a patient in the table.");
+        }
+    }
+    
+    @FXML
+    private void handleBillingButtonAction(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("calculatebilling.fxml"));
+            AnchorPane root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Calculate Billing");
+            stage.setScene(scene);
+            stage.setWidth(400);
+            stage.setHeight(300);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
