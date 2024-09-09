@@ -1,107 +1,101 @@
 package com.example.hoespital;
-import com.example.hoespital.Patient;
-import com.example.hoespital.EditAppointmentController;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
 public class ManageAppointmentController {
-    @FXML
-    private TextField patientNameField;
-    @FXML
-    private TextField patientIdField;
-    @FXML
-    private TextField genderField;
-    @FXML
-    private TextField medicalHistoryField;
-    @FXML
-    private TextField dateField;
-    @FXML
-    private TextField treatmentField;
-    @FXML
-    private TextField insuranceField;
-
-
-    private static int lastPatientId = 0;
 
     @FXML
-    private void handleSaveButtonAction(ActionEvent event) {
-        // Increment the patient ID
-        lastPatientId++;
-        String id = String.valueOf(lastPatientId);
+    private TableView<Patient> patientTable;
 
-        // Save the entered data
-        String name = patientNameField.getText();
-        String gender = genderField.getText();
-        String medicalHistory = medicalHistoryField.getText();
-        String date = dateField.getText();
+    @FXML
+    private TableColumn<Patient, String> patientColumn;
 
-        Patient newPatient = new Patient(name, id, gender, medicalHistory, date , "Treatment A", "Yes");    
+    @FXML
+    private TableColumn<Patient, String> idColumn;
 
-        MainDashboardController.addPatient(newPatient);
+    @FXML
+    private TableColumn<Patient, String> genderColumn;
 
-        // Close the current window
-        Stage stage = (Stage) patientNameField.getScene().getWindow();
-        stage.close();
+    @FXML
+    private TableColumn<Patient, String> medicalHistoryColumn;
+
+    @FXML
+    private TableColumn<Patient, String> dateColumn;
+
+    @FXML
+    private TableColumn<Patient, String> treatmentColumn;
+
+    @FXML
+    private TableColumn<Patient, String> insuranceColumn;
+
+    private static ObservableList<Patient> patientList = FXCollections.observableArrayList();
+
+    @FXML
+    public void initialize() {
+        patientColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        medicalHistoryColumn.setCellValueFactory(new PropertyValueFactory<>("medicalHistory"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        treatmentColumn.setCellValueFactory(new PropertyValueFactory<>("treatment"));
+        insuranceColumn.setCellValueFactory(new PropertyValueFactory<>("insurance"));
+
+        patientTable.setItems(patientList);
+
+        // Add dummy data
+        addDummyData();
     }
 
-    @FXML
-    private void handleCancelButtonAction(ActionEvent event) {
-        // Close the current window
-        Stage stage = (Stage) patientNameField.getScene().getWindow();
-        stage.close();
-
-        // Open the main dashboard window
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("maindashboard.fxml"));
-            AnchorPane root = fxmlLoader.load();
-            Scene scene = new Scene(root);
-            Stage newStage = new Stage();
-            newStage.setTitle("Main Dashboard");
-            newStage.setScene(scene);
-            newStage.setWidth(610);
-            newStage.setHeight(450);
-            newStage.setResizable(false);
-            newStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void addDummyData() {
+        patientList.add(new Patient("John Doe", "0", "Male", "None", "2023-10-01", "Treatment A", "Yes"));
     }
 
-    //edit functionality 
     @FXML
     private void handleEditButtonAction(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/hoespital/editappointment.fxml"));
-            AnchorPane root = fxmlLoader.load();
+        Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
+        if (selectedPatient != null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/hoespital/editappointment.fxml"));
+                AnchorPane root = fxmlLoader.load();
 
-            // Get the controller and set the selected patient
-            EditAppointmentController controller = fxmlLoader.getController();
-            controller.setPatient(new Patient(
-                patientNameField.getText(),
-                patientIdField.getText(),
-                genderField.getText(),
-                medicalHistoryField.getText(),
-                dateField.getText(),
-                treatmentField.getText(),
-                insuranceField.getText()
-            ));
+                // Get the controller and set the selected patient
+                EditAppointmentController controller = fxmlLoader.getController();
+                controller.setPatient(selectedPatient);
 
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setTitle("Edit Patient");
-            stage.setScene(scene);
-            stage.setWidth(610);
-            stage.setHeight(450);
-            stage.setResizable(false);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setTitle("Edit Patient");
+                stage.setScene(scene);
+                stage.setWidth(610);
+                stage.setHeight(450);
+                stage.setResizable(false);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            showAlert("No Selection", "No Patient Selected", "Please select a patient in the table.");
         }
+    }
+
+    private void showAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }
